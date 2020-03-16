@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ECRManagementSystemClass</class>
+ <widget class="QMainWindow" name="ECRManagementSystemClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1177</width>
+    <height>817</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ECRManagementSystem</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#ECRManagementSystemClass{
+border-image: url(:/ECRManagementSystem/Resources/bottom2.png);
+}
+#ECRManagementSystemClass * {
+border-image: url();
+}</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="labelUAES">
+            <property name="minimumSize">
+             <size>
+              <width>189</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>380</width>
+              <height>80</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>9</width>
+              <height>1</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>189</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="ecrmanagementsystem.qrc">:/ECRManagementSystem/Resources/企业标志与企业中英文全称组合_蓝－Logo with Company Name in Chinese and English_Blue.jpg</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelTitle">
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>黑体</family>
+              <pointsize>22</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>ECR Management System</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelBOSCH">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>189</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>380</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>2</width>
+              <height>1</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>569</width>
+              <height>299</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="ecrmanagementsystem.qrc">:/ECRManagementSystem/Resources/bosch.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelUnderline">
+          <property name="baseSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="ecrmanagementsystem.qrc">:/ECRManagementSystem/Resources/bottom.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="font">
+         <font>
+          <family>黑体</family>
+          <pointsize>15</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Triangular</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>查询</string>
+         </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="labelPlatformQuery">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>平台：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEditPlatformQuery">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelTypeNoQuery">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>型号：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEditTypeNoQuery">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelECRNumberQuery">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>ECR编号：</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEditECRNumberQuery">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDialogButtonBox" name="buttonBoxQuery">
+                <property name="minimumSize">
+                 <size>
+                  <width>193</width>
+                  <height>28</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                  <weight>9</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">font: 75 14pt &quot;微软雅黑&quot;;</string>
+                </property>
+                <property name="standardButtons">
+                 <set>QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+                </property>
+                <property name="centerButtons">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableView" name="tableView"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>断点/切回</string>
+         </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QLabel" name="labelPlatform">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>      平台：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditPlatform">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QLabel" name="labelTypeNo">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>      型号：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditTypeNo">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QLabel" name="labelECRNumber">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ECR编号：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditECRNumber">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="QLabel" name="labelOperate">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>      操作：</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButtonBreakpoint">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ECR断点</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButtonRecover">
+                  <property name="font">
+                   <font>
+                    <family>微软雅黑</family>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ECR切回</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_4">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox">
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>ECR内容</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout">
+                 <item row="0" column="0">
+                  <widget class="QTextEdit" name="textEditContent">
+                   <property name="font">
+                    <font>
+                     <family>微软雅黑</family>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDialogButtonBox" name="buttonBoxInsertData">
+                <property name="minimumSize">
+                 <size>
+                  <width>193</width>
+                  <height>28</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>微软雅黑</family>
+                  <pointsize>14</pointsize>
+                  <weight>9</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">font: 75 14pt &quot;微软雅黑&quot;;</string>
+                </property>
+                <property name="standardButtons">
+                 <set>QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+                </property>
+                <property name="centerButtons">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1177</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>登录/退出</string>
+    </property>
+    <addaction name="actionLogin"/>
+    <addaction name="actionLogout"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionLogin">
+   <property name="text">
+    <string>登录</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionLogout">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="ecrmanagementsystem.qrc"/>
+ </resources>
+ <connections/>
+</ui>

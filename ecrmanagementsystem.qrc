@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/ECRManagementSystem">
+        <file>Resources/bottom2.png</file>
+        <file>Resources/background.png</file>
+        <file>Resources/bosch.png</file>
+        <file>Resources/bottom.png</file>
+        <file>Resources/企业标志与企业愿景组合_蓝－Logo with Slogan_Blue.jpg</file>
+        <file>Resources/企业标志与企业中英文全称组合_蓝－Logo with Company Name in Chinese and English_Blue.jpg</file>
+        <file>Resources/icon-fail.png</file>
+        <file>Resources/icon-ok.png</file>
+    </qresource>
+</RCC>

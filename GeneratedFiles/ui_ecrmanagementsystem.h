@@ -271,6 +271,7 @@ public:
 
         tableView = new QTableView(tab);
         tableView->setObjectName(QStringLiteral("tableView"));
+        tableView->setFont(font);
 
         verticalLayout_5->addWidget(tableView);
 

@@ -46,7 +46,6 @@ public:
 	bool InsertData(QString sql);
 
 	//²Ûº¯Êý
-	void ReadTimer();
 	void ReadReceiveData();
 	void UpdateTime();
 	void OnActionLoginClicked();

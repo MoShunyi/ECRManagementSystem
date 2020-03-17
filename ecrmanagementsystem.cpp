@@ -24,7 +24,8 @@ ECRManagementSystem::ECRManagementSystem(QWidget *parent)
 		//提示连接成功
 		QString temp = QString("[%1:%2]:connected success").arg(ip).arg(QString::number(port));
 		qDebug()<<temp;
-
+		//tcpSocket->waitForReadyRead(1000);
+		qDebug("State:%d\n",tcpSocket->state());
 		connect(tcpSocket,&QTcpSocket::readyRead,this,&ECRManagementSystem::ReadReceiveData);
 	});
 	ui.buttonBoxInsertData->button(QDialogButtonBox::Ok)->setText(QStringLiteral("确定"));//将buttonbox中的ok汉化
@@ -80,19 +81,18 @@ QVariant TabQuerySQlQueryModel::data(const QModelIndex &index, int role) const
 
 	return value;
 }
-void ECRManagementSystem::ReadTimer()
-{
-	QTimer *readTimer = new QTimer(this);
-	readTimer->start(1000);
-	connect(readTimer,&QTimer::timeout,this,&ECRManagementSystem::ReadReceiveData);
-}
+
 void ECRManagementSystem::ReadReceiveData()
 {
 	//从通信套接字中取出内容
-	tcpSocket->waitForReadyRead(3000);
+	//tcpSocket->waitForReadyRead(3000);
 	QByteArray array = tcpSocket->readAll();
-	qDebug()<<"array = "<<array;
-	QString typeNo = array.data();
+	QString typeNo;
+	for (int i = 4;i<array.length();i++)
+	{
+		typeNo += array.at(i);
+	}
+	qDebug()<<"typeNo = "<<typeNo;
 	SqlDatabase *accessDB = new SqlDatabase;
 	QSqlQuery *query = new QSqlQuery;
 	QString sql;
@@ -102,16 +102,20 @@ void ECRManagementSystem::ReadReceiveData()
 	accessDB->QueryData(sql,query);
 	if (query->next())
 	{
-		qDebug()<<query->value("partNumber");
+		qDebug()<<query->value("partNumber").toString();
 		QByteArray sendData("NG</root>");
+		//QString sendData = QString("NG</root>");
 		tcpSocket->write(sendData);
+		tcpSocket->waitForBytesWritten(100);
 	} 
 	else
 	{
 		QByteArray sendData("OK</root>");
-		qDebug()<<sendData;
+		qDebug()<<"OK</root>";
+		//QString sendData = QString("OK</root>");
+		//tcpSocket->write(sendData.toUtf8().data(),sendData.toUtf8().length());
 		tcpSocket->write(sendData);
-		tcpSocket->waitForBytesWritten(3000);
+		tcpSocket->waitForBytesWritten(100);
 	}
 }
 void ECRManagementSystem::UpdateTime()

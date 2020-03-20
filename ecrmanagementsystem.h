@@ -39,14 +39,10 @@ public:
 	ECRManagementSystem(QWidget *parent = 0);
 	~ECRManagementSystem();
 
-	void ReadSettings();
-	bool ConnectDatabase();
-	bool LoginCheck(QString userName, QString password);
-	void QueryData(QString sql);
-	bool InsertData(QString sql);
+	bool LoginCheck(QString userName, QString password); //登录检查
 
 	//槽函数
-	void ReadReceiveData();
+	void ReadReceiveData(); //读取一体机发送的数据
 	void UpdateTime();
 	void OnActionLoginClicked();
 	void OnActionLogoutClicked();
@@ -55,16 +51,9 @@ public:
 private:
 	Ui::ECRManagementSystemClass ui;
 	Login *log;
-	QSettings *config;
-	SqlDatabase *accessDB;
 	TabQuerySQlQueryModel *queryModel;
 	QSortFilterProxyModel *sqlproxy;
 	QHeaderView *hor;
-	//QSqlQuery *query;
-	//QSqlDatabase accessDB;
-	//QString accessDatabaseDir;
-	//QString accessDatabaseUID;
-	//QString accessDatabasePWD;
 
 	QTcpServer *tcpServer;
 	QTcpSocket *tcpSocket;

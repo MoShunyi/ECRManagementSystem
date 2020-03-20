@@ -4,8 +4,7 @@ ECRManagementSystem::ECRManagementSystem(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	//ReadSettings();
-	//accessDB = new SqlDatabase;
+	
 	queryModel = new TabQuerySQlQueryModel;
 	sqlproxy = new QSortFilterProxyModel(ui.tableView);
 	hor = ui.tableView->horizontalHeader();
@@ -28,10 +27,10 @@ ECRManagementSystem::ECRManagementSystem(QWidget *parent)
 		//提示连接成功
 		QString temp = QString("[%1:%2]:connected success").arg(ip).arg(QString::number(port));
 		qDebug()<<temp;
-		//tcpSocket->waitForReadyRead(1000);
 		qDebug("State:%d\n",tcpSocket->state());
 		connect(tcpSocket,&QTcpSocket::readyRead,this,&ECRManagementSystem::ReadReceiveData);
 	});
+
 	ui.buttonBoxInsertData->button(QDialogButtonBox::Ok)->setText(QStringLiteral("确定"));//将buttonbox中的ok汉化
 	ui.buttonBoxInsertData->button(QDialogButtonBox::Reset)->setText(QStringLiteral("重置"));
 	ui.buttonBoxQuery->button(QDialogButtonBox::Ok)->setText(QStringLiteral("查询"));
@@ -59,6 +58,7 @@ ECRManagementSystem::ECRManagementSystem(QWidget *parent)
 	connect(ui.actionLogin,&QAction::triggered,this,&ECRManagementSystem::OnActionLoginClicked);
 	connect(ui.actionLogout,&QAction::triggered,this,&ECRManagementSystem::OnActionLogoutClicked);
 
+	//点击查询按钮
 	connect(ui.buttonBoxQuery,&QDialogButtonBox::clicked,this,&ECRManagementSystem::OnButtonBoxQueryClicked);
 	connect(ui.buttonBoxInsertData,&QDialogButtonBox::clicked,this,&ECRManagementSystem::OnButtonBoxInsertDataClicked);
 
@@ -99,8 +99,9 @@ QVariant TabQuerySQlQueryModel::data(const QModelIndex &index, int role) const
 
 void ECRManagementSystem::ReadReceiveData()
 {
+	OnButtonBoxQueryClicked(ui.buttonBoxQuery->button(QDialogButtonBox::Reset)); //查询结果清空
+
 	//从通信套接字中取出内容
-	//tcpSocket->waitForReadyRead(3000);
 	QByteArray array = tcpSocket->readAll();
 	QString typeNo;
 	for (int i = 4;i<array.length();i++)
@@ -134,6 +135,8 @@ void ECRManagementSystem::ReadReceiveData()
 		delete sqlDB;
 	}
 }
+
+//状态栏时间更新
 void ECRManagementSystem::UpdateTime()
 {
 	QDateTime currentTime = QDateTime::currentDateTime();
@@ -250,14 +253,10 @@ void ECRManagementSystem::OnButtonBoxQueryClicked(QAbstractButton *button)
 		ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);//均分行，填满整个表
 		ui.tableView->setSortingEnabled(true);//设置可排序
 		ui.tableView->setModel(sqlproxy);
-		//ui.tableView->setModel(queryModel);
+		
 		ui.tableView->show();
 		//delete sqlDB;
-		
-		//delete query;
-		//accessDB = nullptr;
-
-		
+		//delete query;	
 	}
 }
 
@@ -313,7 +312,6 @@ void ECRManagementSystem::OnButtonBoxInsertDataClicked(QAbstractButton *button)
 			msgBox.setIconPixmap(QPixmap(":/ECRManagementSystem/Resources/icon-ok.png"));
 			msgBox.exec();
 			delete sqlDB;
-			//accessDB = nullptr;
 		} 
 		else
 		{
@@ -322,7 +320,6 @@ void ECRManagementSystem::OnButtonBoxInsertDataClicked(QAbstractButton *button)
 			msgBox.setIconPixmap(QPixmap(":/ECRManagementSystem/Resources/icon-fail.png"));
 			msgBox.exec();
 			delete sqlDB;
-			//accessDB = nullptr;
 		}
 	}
 }

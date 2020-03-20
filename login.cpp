@@ -10,7 +10,6 @@ Login::Login(QWidget *parent)
 	uiLog->lineEditUsername->setFocus();
 	uiLog->lineEditPassword->setEchoMode(QLineEdit::Password);
 
-	//accessDB = new SqlDatabase;
 	//连接信号和槽
 	connect(uiLog->buttonBoxLogin,static_cast<void (QDialogButtonBox::*)(QAbstractButton *)>(&QDialogButtonBox::clicked),this,&Login::OnButtonBoxLoginClicked);
 }

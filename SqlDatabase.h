@@ -20,7 +20,6 @@ public:
 	bool InsertData(QString sql);
 
 private:
-	//QSqlQuery *query;
 	QSettings *config;
 	QSqlDatabase accessDB;
 	QString accessDatabaseDir;

@@ -5,14 +5,12 @@ SqlDatabase::SqlDatabase(void)
 {
 	InitSql();
 	ConnectDatabase();
-	//query = new QSqlQuery(accessDB);
 }
 
 
 SqlDatabase::~SqlDatabase(void)
 {
-	//delete config;
-	//delete query;
+	delete config;
 }
 
 void SqlDatabase::InitSql()
@@ -49,19 +47,10 @@ bool SqlDatabase::LoginCheck(QString userName, QString password)
 		ConnectDatabase();
 	}
 	QSqlQuery *query = new QSqlQuery(accessDB);
-	//if (query==nullptr)
-	//{
-	//	query = new QSqlQuery(accessDB);
-	//}
 	query->exec(sql);
-	
-	/*while(query->next())
-	{
-		qDebug()<<query->value("userName").toString()<<" "<<query->value("password").toString();
-	}*/
 	if (!query->next())
 	{
-		//delete query;
+		delete query;
 		return false;
 	}
 	delete query;
@@ -69,26 +58,20 @@ bool SqlDatabase::LoginCheck(QString userName, QString password)
 }
 void SqlDatabase::QueryData(QString sql,QSqlQuery *pQuery)
 {
-	/*if (sql.isEmpty())
+	if (sql.isEmpty())
 	{
-		return ;
-	}*/
+		return;
+	}
 	if (!accessDB.isOpen())
 	{
 		ConnectDatabase();
 	}
-	//QSqlQuery *temQuery =new QSqlQuery(accessDB);
-	//temQuery->exec(sql);
-	//if (query==nullptr)
-	//{
-	//	query = new QSqlQuery(accessDB);
-	//}
+
 	QSqlQuery *query =new QSqlQuery(accessDB);
 	query->exec(sql);
 	if (query->lastError().isValid())
 	{
 		pQuery = nullptr;
-		//query->clear();
 		delete query;
 		return;
 	}else
@@ -103,6 +86,7 @@ void SqlDatabase::QueryData(QString sql,QSqlQuery *pQuery)
 		delete query;
 	}
 }
+
 bool SqlDatabase::InsertData(QString sql)
 {
 	if (sql.isEmpty())
@@ -117,8 +101,6 @@ bool SqlDatabase::InsertData(QString sql)
 
 	QSqlQuery *query = new QSqlQuery(accessDB);
 	query->exec(sql);
-	
-	qDebug()<<sql;
 	
 	if (query->numRowsAffected() != 0 && query->numRowsAffected() != -1)
 	{

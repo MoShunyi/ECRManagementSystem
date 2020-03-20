@@ -16,11 +16,11 @@ public:
 	void InitSql();
 	bool ConnectDatabase();
 	bool LoginCheck(QString userName, QString password);
-	void QueryData(QString sql, QSqlQuery *query);
+	void QueryData(QString sql, QSqlQuery *pQuery);
 	bool InsertData(QString sql);
 
 private:
-	QSqlQuery *query;
+	//QSqlQuery *query;
 	QSettings *config;
 	QSqlDatabase accessDB;
 	QString accessDatabaseDir;

@@ -24,8 +24,6 @@ public:
 private:
 	Ui::Login *uiLog;
 
-	SqlDatabase *accessDB;
-
 	QString loginName;
 	QString loginPassword;
 };

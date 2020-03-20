@@ -4,12 +4,15 @@
 SqlDatabase::SqlDatabase(void)
 {
 	InitSql();
+	ConnectDatabase();
+	//query = new QSqlQuery(accessDB);
 }
 
 
 SqlDatabase::~SqlDatabase(void)
 {
-	delete config;
+	//delete config;
+	//delete query;
 }
 
 void SqlDatabase::InitSql()
@@ -41,11 +44,15 @@ bool SqlDatabase::ConnectDatabase()
 bool SqlDatabase::LoginCheck(QString userName, QString password)
 {
 	QString sql = QString("select * from users where userName='%1' and password = '%2' ").arg(userName).arg(password);
-	if (!accessDB.open())
+	if (!accessDB.isOpen())
 	{
 		ConnectDatabase();
 	}
-	query = new QSqlQuery(accessDB);
+	QSqlQuery *query = new QSqlQuery(accessDB);
+	//if (query==nullptr)
+	//{
+	//	query = new QSqlQuery(accessDB);
+	//}
 	query->exec(sql);
 	
 	/*while(query->next())
@@ -54,33 +61,47 @@ bool SqlDatabase::LoginCheck(QString userName, QString password)
 	}*/
 	if (!query->next())
 	{
+		//delete query;
 		return false;
 	}
+	delete query;
 	return true;
 }
-void SqlDatabase::QueryData(QString sql,QSqlQuery *query)
+void SqlDatabase::QueryData(QString sql,QSqlQuery *pQuery)
 {
 	/*if (sql.isEmpty())
 	{
 		return ;
 	}*/
-	if (!accessDB.open())
+	if (!accessDB.isOpen())
 	{
 		ConnectDatabase();
 	}
-	QSqlQuery *temQuery =new QSqlQuery(accessDB);
-	temQuery->exec(sql);
-	if (temQuery->lastError().isValid())
+	//QSqlQuery *temQuery =new QSqlQuery(accessDB);
+	//temQuery->exec(sql);
+	//if (query==nullptr)
+	//{
+	//	query = new QSqlQuery(accessDB);
+	//}
+	QSqlQuery *query =new QSqlQuery(accessDB);
+	query->exec(sql);
+	if (query->lastError().isValid())
 	{
+		pQuery = nullptr;
+		//query->clear();
+		delete query;
 		return;
-		query = nullptr;
-		delete temQuery;
 	}else
 	{
-		*query = *temQuery;
-		delete temQuery;
+		*pQuery = *query;
+		//query->clear();
+		//while(pQuery->next())
+		//{
+		//	qDebug()<<query->value("platform").toString()<<" "<<pQuery->value("partNumber").toString();
+		//}
+		//pQuery->first();
+		delete query;
 	}
-	
 }
 bool SqlDatabase::InsertData(QString sql)
 {
@@ -88,12 +109,13 @@ bool SqlDatabase::InsertData(QString sql)
 	{
 		return false;
 	}
-	if (!accessDB.open())
+	if (!accessDB.isOpen())
 	{
 		ConnectDatabase();
 	}
 	QSqlDatabase::database().transaction();
-	query = new QSqlQuery(accessDB);
+
+	QSqlQuery *query = new QSqlQuery(accessDB);
 	query->exec(sql);
 	
 	qDebug()<<sql;
@@ -101,10 +123,12 @@ bool SqlDatabase::InsertData(QString sql)
 	if (query->numRowsAffected() != 0 && query->numRowsAffected() != -1)
 	{
 		QSqlDatabase::database().commit();
+		delete query;
 		return true;
 	} 
 	else
 	{
+		delete query;
 		return false;
 	}
 }

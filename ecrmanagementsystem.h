@@ -57,6 +57,9 @@ private:
 	Login *log;
 	QSettings *config;
 	SqlDatabase *accessDB;
+	TabQuerySQlQueryModel *queryModel;
+	QSortFilterProxyModel *sqlproxy;
+	QHeaderView *hor;
 	//QSqlQuery *query;
 	//QSqlDatabase accessDB;
 	//QString accessDatabaseDir;

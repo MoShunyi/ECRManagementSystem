@@ -271,7 +271,14 @@ public:
 
         tableView = new QTableView(tab);
         tableView->setObjectName(QStringLiteral("tableView"));
-        tableView->setFont(font);
+        QFont font6;
+        font6.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
+        font6.setPointSize(12);
+        font6.setBold(false);
+        font6.setItalic(false);
+        font6.setWeight(50);
+        tableView->setFont(font6);
+        tableView->setStyleSheet(QString::fromUtf8("font: 12pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
 
         verticalLayout_5->addWidget(tableView);
 
@@ -449,11 +456,11 @@ public:
         menuBar->setFont(font);
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
-        QFont font6;
-        font6.setPointSize(10);
-        font6.setBold(false);
-        font6.setWeight(50);
-        menu->setFont(font6);
+        QFont font7;
+        font7.setPointSize(10);
+        font7.setBold(false);
+        font7.setWeight(50);
+        menu->setFont(font7);
         ECRManagementSystemClass->setMenuBar(menuBar);
         statusBar = new QStatusBar(ECRManagementSystemClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));

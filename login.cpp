@@ -10,7 +10,7 @@ Login::Login(QWidget *parent)
 	uiLog->lineEditUsername->setFocus();
 	uiLog->lineEditPassword->setEchoMode(QLineEdit::Password);
 
-	accessDB = nullptr;
+	//accessDB = new SqlDatabase;
 	//连接信号和槽
 	connect(uiLog->buttonBoxLogin,static_cast<void (QDialogButtonBox::*)(QAbstractButton *)>(&QDialogButtonBox::clicked),this,&Login::OnButtonBoxLoginClicked);
 }
@@ -25,7 +25,7 @@ QString Login::GetLoginName()
 }
 void Login::OnButtonBoxLoginClicked(QAbstractButton *button)
 {
-	SqlDatabase *accessDB = new SqlDatabase;
+	SqlDatabase *sqlDB = new SqlDatabase;
 	QString strUsername = uiLog->lineEditUsername->text().trimmed();
 	QString strPassword = uiLog->lineEditPassword->text().trimmed();
 	if (button == uiLog->buttonBoxLogin->button(QDialogButtonBox::Reset))
@@ -43,16 +43,16 @@ void Login::OnButtonBoxLoginClicked(QAbstractButton *button)
 		} 
 		else
 		{
-			if (accessDB->LoginCheck(strUsername,strPassword))
+			if (sqlDB->LoginCheck(strUsername,strPassword))
 			{
 				loginName = strUsername;
-				delete accessDB;
+				delete sqlDB;
 				accept();
 			}
 			else 
 			{
 				QMessageBox::warning(this,QStringLiteral("警告！"),QStringLiteral("<font size = 6>用户名或者密码错误</font>"),QMessageBox::Yes);
-				delete accessDB;
+				delete sqlDB;
 			}
 		}
 

@@ -5,6 +5,10 @@ ECRManagementSystem::ECRManagementSystem(QWidget *parent)
 {
 	ui.setupUi(this);
 	//ReadSettings();
+	//accessDB = new SqlDatabase;
+	queryModel = new TabQuerySQlQueryModel;
+	sqlproxy = new QSortFilterProxyModel(ui.tableView);
+	hor = ui.tableView->horizontalHeader();
 	tcpServer = NULL;
 	tcpSocket = NULL;
 
@@ -50,12 +54,23 @@ ECRManagementSystem::ECRManagementSystem(QWidget *parent)
 	ui.statusBar->addWidget(currentTimeLabel);
 	connect(timer,&QTimer::timeout,this,&ECRManagementSystem::UpdateTime);
 
+	//OnActionLoginClicked();
 	//点击登录注销菜单
 	connect(ui.actionLogin,&QAction::triggered,this,&ECRManagementSystem::OnActionLoginClicked);
 	connect(ui.actionLogout,&QAction::triggered,this,&ECRManagementSystem::OnActionLogoutClicked);
 
 	connect(ui.buttonBoxQuery,&QDialogButtonBox::clicked,this,&ECRManagementSystem::OnButtonBoxQueryClicked);
 	connect(ui.buttonBoxInsertData,&QDialogButtonBox::clicked,this,&ECRManagementSystem::OnButtonBoxInsertDataClicked);
+
+	//connect(ui.tabWidget,static_cast<void (QTabWidget::*)(int)>(&QTabWidget::currentChanged),
+	//	[=](int index)
+	//{
+	//	if (index == 0)
+	//	{
+	//		OnButtonBoxQueryClicked(ui.buttonBoxQuery->button(QDialogButtonBox::Reset));
+	//	}
+	//}
+	//	);
 }
 
 ECRManagementSystem::~ECRManagementSystem()
@@ -93,29 +108,30 @@ void ECRManagementSystem::ReadReceiveData()
 		typeNo += array.at(i);
 	}
 	qDebug()<<"typeNo = "<<typeNo;
-	SqlDatabase *accessDB = new SqlDatabase;
+	SqlDatabase *sqlDB = new SqlDatabase;
 	QSqlQuery *query = new QSqlQuery;
 	QString sql;
 	sql = QString("select top 1 partNumber from ECR where partNumber = '%1' and actions = '%2' ").arg(typeNo,QStringLiteral("ECR断点"))
 		+ QString("and timestamps = (select MAX(timestamps)  from ECR where partNumber = '%1') order by timestamps desc").arg(typeNo);
 	qDebug()<<sql;
-	accessDB->QueryData(sql,query);
-	if (query->next())
+	sqlDB->QueryData(sql,query);
+	if (query->first())
 	{
 		qDebug()<<query->value("partNumber").toString();
 		QByteArray sendData("NG</root>");
-		//QString sendData = QString("NG</root>");
 		tcpSocket->write(sendData);
 		tcpSocket->waitForBytesWritten(100);
+		delete query;
+		delete sqlDB;
 	} 
 	else
 	{
 		QByteArray sendData("OK</root>");
 		qDebug()<<"OK</root>";
-		//QString sendData = QString("OK</root>");
-		//tcpSocket->write(sendData.toUtf8().data(),sendData.toUtf8().length());
 		tcpSocket->write(sendData);
 		tcpSocket->waitForBytesWritten(100);
+		delete query;
+		delete sqlDB;
 	}
 }
 void ECRManagementSystem::UpdateTime()
@@ -127,6 +143,7 @@ void ECRManagementSystem::UpdateTime()
 
 void ECRManagementSystem::OnActionLoginClicked()
 {
+	OnButtonBoxQueryClicked(ui.buttonBoxQuery->button(QDialogButtonBox::Reset));
 	log = new Login(this);
 	log->setModal(true);
 	log->show();
@@ -161,6 +178,14 @@ void ECRManagementSystem::OnButtonBoxQueryClicked(QAbstractButton *button)
 		ui.lineEditPlatformQuery->setText("");
 		ui.lineEditTypeNoQuery->setText("");
 		ui.lineEditECRNumberQuery->setText("");
+		if (queryModel->rowCount() > 0)
+		{
+			queryModel->clear();
+		}
+		
+		sqlproxy->setSourceModel(queryModel);
+		ui.tableView->setModel(sqlproxy);
+		ui.lineEditPlatformQuery->setFocus();
 		return;
 	}
 	
@@ -180,18 +205,20 @@ void ECRManagementSystem::OnButtonBoxQueryClicked(QAbstractButton *button)
 		}
 		
 		qDebug()<<sql;
-		SqlDatabase *accessDB = new SqlDatabase;
+		SqlDatabase *sqlDB = new SqlDatabase;
 		QSqlQuery *query = new QSqlQuery;
-		accessDB->QueryData(sql,query);
-		//TabQuerySQlQueryModel *queryModel = new TabQuerySQlQueryModel();
+		sqlDB->QueryData(sql,query);
+		
 		if (query==nullptr)
 		{
-			delete accessDB;
+			delete sqlDB;
 			delete query;
 			return;
 		}
-		TabQuerySQlQueryModel *queryModel = new TabQuerySQlQueryModel;
+		//TabQuerySQlQueryModel *queryModel = new TabQuerySQlQueryModel;
+		//QSqlQueryModel *queryModel = new QSqlQueryModel;
 		queryModel->setQuery(*query);
+		
 		queryModel->setHeaderData(0, Qt::Horizontal, QStringLiteral("ECR编号"));
 		queryModel->setHeaderData(1, Qt::Horizontal, QStringLiteral("平台"));
 		queryModel->setHeaderData(2, Qt::Horizontal, QStringLiteral("型号"));
@@ -204,23 +231,30 @@ void ECRManagementSystem::OnButtonBoxQueryClicked(QAbstractButton *button)
 			queryModel->fetchMore();
 		}
 		if (queryModel->lastError().isValid())
+		{
 			qDebug() << queryModel->lastError();
+			delete sqlDB;
+			delete query;
+			return;
+		}
 
-		QHeaderView *hor = ui.tableView->horizontalHeader();
+		//QHeaderView *hor = ui.tableView->horizontalHeader();
 		hor->setSectionResizeMode(QHeaderView::Inteivracte);//表头可调整列宽
 		hor->setSectionResizeMode(QHeaderView::ResizeToContents);  //按内容调整表头大小
 		hor->setStretchLastSection(true);//最后一列填满
 
-		QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(ui.tableView);
+		//QSortFilterProxyModel *sqlproxy = new QSortFilterProxyModel(ui.tableView);
 		sqlproxy->setSourceModel(queryModel);
-
+		
 		ui.tableView->verticalHeader()->hide();//隐藏垂直表头(行标)
 		ui.tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);//均分行，填满整个表
 		ui.tableView->setSortingEnabled(true);//设置可排序
 		ui.tableView->setModel(sqlproxy);
+		//ui.tableView->setModel(queryModel);
 		ui.tableView->show();
-		delete accessDB;
-		delete query;
+		//delete sqlDB;
+		
+		//delete query;
 		//accessDB = nullptr;
 
 		
@@ -240,6 +274,7 @@ void ECRManagementSystem::OnButtonBoxInsertDataClicked(QAbstractButton *button)
 
 	if (button == ui.buttonBoxInsertData->button(QDialogButtonBox::Ok))
 	{
+		OnButtonBoxQueryClicked(ui.buttonBoxQuery->button(QDialogButtonBox::Reset));
 		QString platform = ui.lineEditPlatform->text().trimmed();
 		QString typeNo = ui.lineEditTypeNo->text().trimmed();
 		QString ecrNumber = ui.lineEditECRNumber->text().trimmed();
@@ -268,8 +303,8 @@ void ECRManagementSystem::OnButtonBoxInsertDataClicked(QAbstractButton *button)
 		QString sql = QString(QStringLiteral("insert into ECR(ecrNumber,platform,partNumber,actions,content,timestamps) "))
 			+ QString(QStringLiteral("values ('%1','%2','%3','%4','%5','%6')")).arg(ecrNumber,platform,typeNo,operate,content,timestamp);
 		qDebug()<<sql;
-		SqlDatabase *accessDB = new SqlDatabase;
-		bool result = accessDB->InsertData(sql);
+		SqlDatabase *sqlDB = new SqlDatabase;
+		bool result = sqlDB->InsertData(sql);
 		QMessageBox msgBox;
 		if (result)
 		{
@@ -277,7 +312,7 @@ void ECRManagementSystem::OnButtonBoxInsertDataClicked(QAbstractButton *button)
 			msgBox.setText(QStringLiteral("<font size = 6>ECR录入成功! </font>"));
 			msgBox.setIconPixmap(QPixmap(":/ECRManagementSystem/Resources/icon-ok.png"));
 			msgBox.exec();
-			delete accessDB;
+			delete sqlDB;
 			//accessDB = nullptr;
 		} 
 		else
@@ -286,7 +321,7 @@ void ECRManagementSystem::OnButtonBoxInsertDataClicked(QAbstractButton *button)
 			msgBox.setText(QStringLiteral("<font size = 6>ECR录入失败，请重新提交！</font>"));
 			msgBox.setIconPixmap(QPixmap(":/ECRManagementSystem/Resources/icon-fail.png"));
 			msgBox.exec();
-			delete accessDB;
+			delete sqlDB;
 			//accessDB = nullptr;
 		}
 	}

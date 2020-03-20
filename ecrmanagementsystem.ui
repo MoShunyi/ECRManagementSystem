@@ -305,8 +305,15 @@ border-image: url();
              <widget class="QTableView" name="tableView">
               <property name="font">
                <font>
-                <pointsize>10</pointsize>
+                <family>微软雅黑</family>
+                <pointsize>12</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 12pt &quot;微软雅黑&quot;;</string>
               </property>
              </widget>
             </item>
